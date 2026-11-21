@@ -149,8 +149,7 @@ const demo = (() => {
       if (String(x.ism||'').trim().length<3) return wait({ok:false,xato:"Ism familiyani to'liq yozing"});
       if (!String(x.guruh||'').trim()) return wait({ok:false,xato:'Guruh nomini yozing'});
       if (!tel) return wait({ok:false,xato:"Telefon raqam noto'g'ri (9 ta raqam)"});
-      // DEMO: shu raqamning eski test yozuvlari o'chiriladi (haqiqiy rejimda qayta ro'yxat taqiqlangan)
-      d.talabalar = d.talabalar.filter(t=>t.telefon!==tel); d.cheklar = d.cheklar.filter(c=>c.telefon!==tel);
+      if (d.talabalar.find(t=>t.telefon===tel)) return wait({ok:false,xato:"Bu raqam allaqachon ro'yxatdan o'tgan. «Kirish» orqali kiring."});
       const kod=String(Math.floor(100000+Math.random()*900000));
       d.talabalar.push({ism:x.ism.trim(),guruh:x.guruh.trim(),telefon:tel,kod}); save(d);
       return wait({ok:true,kod,telefon:tel}); },
