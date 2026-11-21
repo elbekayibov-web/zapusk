@@ -381,7 +381,6 @@ async function nusxa(t){
 }
 function chiqish(){ store.del('zp_sessiya'); sessiya=null; malumot=null; bosh(); }
 
-if (location.hash === '#tozala') { store.del('zp_demo'); store.del('zp_sessiya'); sessiya = null; history.replaceState(null, '', location.pathname); setTimeout(() => toast("Test ma'lumotlari o'chirildi"), 300); }
 if (!CONFIG.API_URL) document.body.insertAdjacentHTML('beforeend', '<div class="demo">DEMO rejim — backend ulanmagan</div>');
 sessiya ? yukla() : bosh();
 </script>
