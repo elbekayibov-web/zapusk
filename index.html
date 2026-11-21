@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kursga yozilish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0e13;--card:#151922;--card2:#1b202b;--line:#272d3a;
+  --text:#eef1f6;--mut:#8c94a4;--acc:#c8f23a;--acc-ink:#12160a;
+  --warn:#ffc24f;--ok:#3ddc84;--bad:#ff6161;--r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:Manrope,system-ui,-apple-system,sans-serif;min-height:100vh;line-height:1.45}
+body:before{content:"";position:fixed;inset:-20% -20% auto -20%;height:60vh;background:radial-gradient(closest-side,rgba(200,242,58,.13),transparent 70%);pointer-events:none;z-index:-1}
+.wrap{max-width:460px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:30px;line-height:1.1;font-weight:800;letter-spacing:-.02em}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
+.mut{color:var(--mut)}
+.small{font-size:13px}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-top:14px}
+.prices{display:grid;gap:10px;margin-top:20px}
+.price{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.price b{font-size:18px}
+.price.hot{border-color:var(--acc);background:linear-gradient(135deg,rgba(200,242,58,.12),rgba(200,242,58,.02))}
+.price .lbl{font-size:14px;font-weight:600}
+.price .sub{font-size:12px;color:var(--mut)}
+.timer{margin-top:14px;text-align:center;font-size:14px;color:var(--mut)}
+.timer b{color:var(--acc);font-variant-numeric:tabular-nums}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:15px 18px;font:inherit;font-weight:800;font-size:16px;cursor:pointer;background:var(--acc);color:var(--acc-ink);margin-top:12px;transition:transform .08s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;pointer-events:none}
+.link{background:none;border:0;color:var(--mut);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:16px;display:block;width:100%}
+label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:14px 0 6px}
+input{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:16px;color:var(--text);outline:none}
+input:focus{border-color:var(--acc)}
+.phone{display:flex;align-items:stretch}
+.phone span{display:flex;align-items:center;padding:0 12px;background:var(--card2);border:1px solid var(--line);border-right:0;border-radius:12px 0 0 12px;color:var(--mut);font-weight:600}
+.phone input{border-radius:0 12px 12px 0}
+.err{background:rgba(255,97,97,.12);border:1px solid rgba(255,97,97,.4);color:#ffb3b3;border-radius:12px;padding:12px 14px;font-size:14px;margin-top:14px}
+.codebox{font-size:44px;font-weight:800;letter-spacing:.18em;text-align:center;background:var(--card2);border:2px dashed var(--acc);border-radius:16px;padding:18px 0;margin:16px 0;color:var(--acc);font-variant-numeric:tabular-nums}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.b-toliq{background:rgba(61,220,132,.14);color:var(--ok)}
+.b-bron{background:rgba(255,194,79,.14);color:var(--warn)}
+.b-tekshirilmoqda{background:rgba(140,148,164,.16);color:#c9ced8}
+.b-yangi{background:rgba(255,97,97,.12);color:#ff9a9a}
+.bar{height:10px;background:var(--card2);border-radius:99px;overflow:hidden;margin:16px 0 8px}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .5s}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.stat{background:var(--card2);border-radius:12px;padding:12px}
+.stat span{display:block;font-size:12px;color:var(--mut)}
+.stat b{font-size:18px;font-variant-numeric:tabular-nums}
+.opts{display:grid;gap:10px;margin-top:6px}
+.opt{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:var(--card2);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--text);font:inherit;cursor:pointer}
+.opt.on{border-color:var(--acc);background:rgba(200,242,58,.08)}
+.opt b{font-size:17px;white-space:nowrap;margin-left:10px}
+.copy{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card2);border-radius:12px;padding:12px 14px;margin-top:10px}
+.copy .v{font-size:17px;font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.copy .k{font-size:12px;color:var(--mut)}
+.copy button{flex:none;background:var(--acc);color:var(--acc-ink);border:0;border-radius:10px;padding:9px 12px;font:inherit;font-weight:800;font-size:13px;cursor:pointer}
+.steps{margin:14px 0 0 18px;font-size:14px;color:#cfd4dd}
+.steps li{margin:4px 0}
+.file{display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px dashed var(--line);border-radius:12px;padding:16px;color:var(--mut);cursor:pointer;font-size:14px;text-align:center}
+.file.has{border-color:var(--acc);color:var(--text)}
+.file input{display:none}
+.hist{list-style:none;margin-top:6px}
+.hist li{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.hist li:last-child{border-bottom:0}
+.done{text-align:center;padding:26px 18px}
+.done .big{font-size:52px}
+.demo{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);background:#2a1f05;color:var(--warn);border:1px solid #5a430a;font-size:12px;padding:6px 12px;border-radius:99px;z-index:9}
+.mini{background:none;border:1px solid var(--warn);color:var(--warn);border-radius:8px;font:inherit;font-size:11px;padding:3px 7px;margin-left:6px;cursor:pointer}
+.toast{position:fixed;left:50%;top:16px;transform:translateX(-50%) translateY(-80px);background:var(--acc);color:var(--acc-ink);font-weight:800;padding:10px 16px;border-radius:12px;transition:transform .25s;z-index:10}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.spin{width:18px;height:18px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:s .7s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// =================== SOZLAMALAR (shu yerni o'zgartiring) ===================
+const CONFIG = {
+  API_URL: '',                          // Apps Script Web App havolasi. Bo'sh bo'lsa — DEMO rejim
+  NOMI: 'Kurs nomi',                    // sarlavha
+  TAVSIF: 'Universitet talabalari uchun maxsus taklif',
+  KARTA: '8600 0000 0000 0000',         // pul tushadigan karta
+  KARTA_EGASI: 'ISM FAMILIYA',
+  BRON: 50000,
+  NARX_CHEGIRMA: 210000,
+  NARX_TOLIQ: 330000,
+  MUDDAT: '2026-11-22T16:00:00+05:00'   // shu vaqtgacha 210 000
+};
+// ===========================================================================
+
+const $app = document.getElementById('app');
+const fmt = n => Math.round(n).toLocaleString('ru-RU').replace(/,/g, ' ') + " so'm";
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+let sessiya = store.get('zp_sessiya');   // {telefon, kod}
+let malumot = null;                       // login javobi
+let tanlov = null;                        // tanlangan summa
+let timerId = null;
+
+function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),1600); }
+function telNorm(v){ let s=String(v||'').replace(/\D/g,''); if(s.startsWith('998')&&s.length===12) return s; if(s.length===9) return '998'+s; return ''; }
+function telKor(s){ return '+998 ' + s.slice(3,5)+' '+s.slice(5,8)+' '+s.slice(8,10)+' '+s.slice(10,12); }
+
+// ---------------- API ----------------
+async function api(action, data){
+  if (!CONFIG.API_URL) return demo[action](data);
+  const r = await fetch(CONFIG.API_URL, { method:'POST', body: JSON.stringify({ action, ...data }) });
+  return r.json();
+}
+
+// DEMO: backendsiz sinash uchun (brauzer xotirasida). Haqiqiy rejimda ishlatilmaydi.
+const demo = (() => {
+  const db = () => store.get('zp_demo') || { talabalar: [], cheklar: [] };
+  const save = d => store.set('zp_demo', d);
+  function hisobla(ch){
+    const muddat = new Date(CONFIG.MUDDAT).getTime(), now = Date.now();
+    let tolagan=0, kutilmoqda=0, vaqtida=0;
+    ch.forEach(c => { if (c.holat==='tasdiq'){ tolagan+=c.summa; if (c.vaqt<=muddat) vaqtida+=c.summa; } else if (c.holat!=='rad') kutilmoqda+=c.summa; });
+    const chegirma = vaqtida>=CONFIG.NARX_CHEGIRMA || now<=muddat;
+    const narx = chegirma ? CONFIG.NARX_CHEGIRMA : CONFIG.NARX_TOLIQ;
+    return { tolagan, kutilmoqda, narx, qoldiq: Math.max(0,narx-tolagan),
+      holat: tolagan>=narx?'toliq':tolagan>=CONFIG.BRON?'bron':kutilmoqda>0?'tekshirilmoqda':'yangi',
+      chegirma, muddat: CONFIG.MUDDAT, bron: CONFIG.BRON, narxChegirma: CONFIG.NARX_CHEGIRMA, narxToliq: CONFIG.NARX_TOLIQ };
+  }
+  function javob(d, t){
+    const ch = d.cheklar.map((c,i)=>({...c,i})).filter(c => c.telefon===t.telefon);
+    return { ok:true, talaba:{ ism:t.ism, guruh:t.guruh, telefon:t.telefon }, hisob: hisobla(ch), cheklar: ch.slice().reverse() };
+  }
+  const wait = v => new Promise(r => setTimeout(() => r(v), 450));
+  return {
+    register(x){ const d=db(); const tel=telNorm(x.telefon);
+      if (String(x.ism||'').trim().length<3) return wait({ok:false,xato:"Ism familiyani to'liq yozing"});
+      if (!String(x.guruh||'').trim()) return wait({ok:false,xato:'Guruh nomini yozing'});
+      if (!tel) return wait({ok:false,xato:"Telefon raqam noto'g'ri (9 ta raqam)"});
+      if (d.talabalar.find(t=>t.telefon===tel)) return wait({ok:false,xato:"Bu raqam allaqachon ro'yxatdan o'tgan. «Kirish» orqali kiring."});
+      const kod=String(Math.floor(100000+Math.random()*900000));
+      d.talabalar.push({ism:x.ism.trim(),guruh:x.guruh.trim(),telefon:tel,kod}); save(d);
+      return wait({ok:true,kod,telefon:tel}); },
+    login(x){ const d=db(); const t=d.talabalar.find(t=>t.telefon===telNorm(x.telefon)&&t.kod===String(x.kod).trim());
+      return wait(t ? javob(d,t) : {ok:false,xato:"Telefon yoki kod noto'g'ri"}); },
+    upload(x){ const d=db(); const t=d.talabalar.find(t=>t.telefon===telNorm(x.telefon)&&t.kod===x.kod);
+      if(!t) return wait({ok:false,xato:"Telefon yoki kod noto'g'ri"});
+      d.cheklar.push({telefon:t.telefon,summa:Number(x.summa),karta4:x.karta4,vaqt:Date.now(),holat:'kutilmoqda',izoh:''}); save(d);
+      return wait(javob(d,t)); },
+    tasdiq(i, holat){ const d=db(); d.cheklar[i].holat=holat; save(d); }
+  };
+})();
+
+// ---------------- Ekranlar ----------------
+function qolganVaqt(){
+  const ms = new Date(CONFIG.MUDDAT).getTime() - Date.now();
+  if (ms <= 0) return null;
+  const s = Math.floor(ms/1000), h = Math.floor(s/3600), m = Math.floor(s%3600/60), sec = s%60;
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function muddatMatn(){
+  const d = new Date(CONFIG.MUDDAT);
+  const oylar=['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+  const tk = new Date(d.getTime() + (5*60 + d.getTimezoneOffset())*60000); // Toshkent vaqti
+  return tk.getDate()+'-'+oylar[tk.getMonth()]+' '+String(tk.getHours()).padStart(2,'0')+':'+String(tk.getMinutes()).padStart(2,'0');
+}
+function startTimer(){
+  clearInterval(timerId);
+  timerId = setInterval(() => { const el=document.getElementById('tmr'); if(!el) return clearInterval(timerId); const q=qolganVaqt(); el.innerHTML = q ? 'Chegirma tugashiga: <b>'+q+'</b>' : 'Chegirma muddati tugadi'; }, 1000);
+}
+
+function bosh(){
+  const aktiv = !!qolganVaqt();
+  $app.innerHTML = `
+    <span class="tag">Ro'yxat ochiq</span>
+    <h1>${esc(CONFIG.NOMI)}</h1>
+    <p class="mut" style="margin-top:8px">${esc(CONFIG.TAVSIF)}</p>
+    <div class="prices">
+      <div class="price"><div><div class="lbl">Joy band qilish</div><div class="sub">kurs narxiga kiradi</div></div><b>${fmt(CONFIG.BRON)}</b></div>
+      <div class="price ${aktiv?'hot':''}"><div><div class="lbl">To'liq kurs — chegirma</div><div class="sub">${muddatMatn()} gacha</div></div><b>${fmt(CONFIG.NARX_CHEGIRMA)}</b></div>
+      <div class="price ${aktiv?'':'hot'}"><div><div class="lbl">To'liq kurs</div><div class="sub">muddatdan keyin</div></div><b>${fmt(CONFIG.NARX_TOLIQ)}</b></div>
+    </div>
+    <div class="timer" id="tmr">${aktiv ? 'Chegirma tugashiga: <b>'+qolganVaqt()+'</b>' : 'Chegirma muddati tugadi'}</div>
+    <button class="btn" onclick="royxat()">Ro'yxatdan o'tish</button>
+    <button class="btn ghost" onclick="kirish()">Kabinetga kirish</button>`;
+  startTimer();
+}
+
+function royxat(xato){
+  $app.innerHTML = `
+    <button class="link" style="text-align:left;margin:0 0 14px" onclick="bosh()">← Orqaga</button>
+    <h2>Ro'yxatdan o'tish</h2>
+    <form id="f">
+      <label>Ism familiya</label><input name="ism" autocomplete="name" placeholder="Ali Valiyev" required>
+      <label>Guruh nomi</label><input name="guruh" placeholder="EKR-75/23" required>
+      <label>Telefon raqam</label>
+      <div class="phone"><span>+998</span><input name="telefon" inputmode="numeric" placeholder="90 123 45 67" required></div>
+      <div id="e"></div>
+      <button class="btn" type="submit">Davom etish</button>
+    </form>`;
+  formIshla('f', async v => {
+    const r = await api('register', v);
+    if (!r.ok) throw r.xato;
+    kodEkrani(r.telefon, r.kod);
+  });
+}
+
+function kodEkrani(telefon, kod){
+  $app.innerHTML = `
+    <div class="card done">
+      <h2>Sizning shaxsiy kodingiz</h2>
+      <p class="mut small">Shu kod va telefon raqamingiz bilan kabinetga kirasiz</p>
+      <div class="codebox">${esc(kod)}</div>
+      <p style="font-weight:700">📸 Hozir skrinshot qilib oling!</p>
+      <p class="mut small" style="margin-top:6px">${telKor(telefon)}</p>
+      <button class="btn" id="go">Kabinetga kirish</button>
+    </div>`;
+  document.getElementById('go').onclick = async e => {
+    e.target.disabled = true;
+    sessiya = { telefon, kod }; store.set('zp_sessiya', sessiya);
+    await yukla();
+  };
+}
+
+function kirish(){
+  $app.innerHTML = `
+    <button class="link" style="text-align:left;margin:0 0 14px" onclick="bosh()">← Orqaga</button>
+    <h2>Kabinetga kirish</h2>
+    <form id="f">
+      <label>Telefon raqam</label>
+      <div class="phone"><span>+998</span><input name="telefon" inputmode="numeric" placeholder="90 123 45 67" required></div>
+      <label>Shaxsiy kod</label><input name="kod" inputmode="numeric" maxlength="6" placeholder="6 xonali kod" required>
+      <div id="e"></div>
+      <button class="btn" type="submit">Kirish</button>
+    </form>
+    <p class="mut small" style="margin-top:16px;text-align:center">Kodni unutdingizmi? Tashkilotchiga yozing.</p>`;
+  formIshla('f', async v => {
+    const r = await api('login', v);
+    if (!r.ok) throw r.xato;
+    sessiya = { telefon: telNorm(v.telefon), kod: v.kod.trim() }; store.set('zp_sessiya', sessiya);
+    malumot = r; tanlov = null; kabinet();
+  });
+}
+
+function formIshla(id, fn){
+  const f = document.getElementById(id);
+  f.onsubmit = async ev => {
+    ev.preventDefault();
+    const b = f.querySelector('button[type=submit]'), e = document.getElementById('e');
+    const matn = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span>'; e.innerHTML = '';
+    try { await fn(Object.fromEntries(new FormData(f))); }
+    catch(x){ e.innerHTML = `<div class="err">${esc(typeof x==='string'?x:"Internet bilan muammo. Qayta urinib ko'ring.")}</div>`; b.disabled=false; b.innerHTML=matn; }
+  };
+}
+
+async function yukla(){
+  $app.innerHTML = '<div style="display:flex;justify-content:center;padding:80px 0;color:var(--acc)"><span class="spin"></span></div>';
+  try {
+    const r = await api('login', sessiya);
+    if (!r.ok) { store.del('zp_sessiya'); sessiya=null; return kirish(); }
+    malumot = r; kabinet();
+  } catch(e){ $app.innerHTML = `<div class="err">Internet bilan muammo.</div><button class="btn" onclick="yukla()">Qayta urinish</button>`; }
+}
+
+const HOLAT = {
+  toliq: ['b-toliq', "✅ To'liq to'langan"],
+  bron: ['b-bron', '🟡 Joy band qilingan'],
+  tekshirilmoqda: ['b-tekshirilmoqda', '⏳ Tekshirilmoqda'],
+  yangi: ['b-yangi', "To'lov qilinmagan"]
+};
+const CHEK = { kutilmoqda: '⏳ Tekshirilmoqda', tasdiq: '✅ Tasdiqlandi', rad: '❌ Rad etildi' };
+
+function kabinet(){
+  const { talaba:t, hisob:h, cheklar } = malumot;
+  const foiz = Math.min(100, h.tolagan / h.narx * 100);
+  const kerak = Math.max(0, h.qoldiq - h.kutilmoqda);   // hali yuborilmagan qism
+  let opts = [];
+  if (h.tolagan === 0 && h.kutilmoqda === 0) opts = [
+    { s: h.bron, l: 'Joy band qilish', d: 'qolgani keyin' },
+    { s: h.narx, l: "To'liq to'lash", d: h.chegirma ? 'chegirma bilan' : '' }];
+  else if (kerak > 0) opts = [{ s: kerak, l: "Qolganini to'lash", d: h.chegirma ? muddatMatn()+' gacha shu narx' : '' }];
+  if (tanlov && !opts.find(o=>o.s===tanlov)) tanlov = null;
+  if (!tanlov && opts.length===1) tanlov = opts[0].s;
+
+  $app.innerHTML = `
+    <div class="top">
+      <div><p class="mut small">Salom,</p><h2 style="margin:0">${esc(t.ism)}</h2><p class="mut small">${esc(t.guruh)} · ${telKor(t.telefon)}</p></div>
+      <span class="badge ${HOLAT[h.holat][0]}">${HOLAT[h.holat][1]}</span>
+    </div>
+
+    <div class="card">
+      <div class="top"><span class="mut small">Kurs narxi</span><b>${fmt(h.narx)}</b></div>
+      <div class="bar"><i style="width:${foiz}%"></i></div>
+      <div class="stats">
+        <div class="stat"><span>To'langan</span><b>${fmt(h.tolagan)}</b></div>
+        <div class="stat"><span>Qoldiq</span><b>${fmt(h.qoldiq)}</b></div>
+      </div>
+      ${h.kutilmoqda ? `<p class="mut small" style="margin-top:10px">⏳ ${fmt(h.kutilmoqda)} tekshirilmoqda — tasdiqlangach shu yerda ko'rinadi.</p>` : ''}
+      ${h.holat!=='toliq' ? `<p class="mut small" style="margin-top:10px">${h.chegirma ? `${muddatMatn()} gacha to'liq to'lasangiz — ${fmt(h.narxChegirma)}, keyin ${fmt(h.narxToliq)}.` : `Chegirma muddati tugagan.`}</p>` : ''}
+    </div>
+
+    ${h.holat==='toliq' ? `<div class="card done"><div class="big">🎉</div><h2 style="margin-top:8px">Kursga to'liq yozildingiz!</h2><p class="mut small">Ko'rishguncha!</p></div>` :
+      opts.length ? `
+    <div class="card">
+      <h2>To'lov</h2>
+      <div class="opts">${opts.map(o => `
+        <button class="opt ${tanlov===o.s?'on':''}" onclick="tanlov=${o.s};kabinet()">
+          <div><div style="font-weight:700">${o.l}</div>${o.d?`<div class="mut small">${o.d}</div>`:''}</div><b>${fmt(o.s)}</b>
+        </button>`).join('')}</div>
+      ${tanlov ? `
+        <div class="copy"><div><div class="k">Karta raqami · ${esc(CONFIG.KARTA_EGASI)}</div><div class="v">${esc(CONFIG.KARTA)}</div></div><button onclick="nusxa('${CONFIG.KARTA.replace(/\s/g,'')}')">Nusxa</button></div>
+        <div class="copy"><div><div class="k">Summa</div><div class="v">${fmt(tanlov)}</div></div><button onclick="nusxa('${tanlov}')">Nusxa</button></div>
+        <ol class="steps">
+          <li>Click, Payme yoki bank ilovangizni oching</li>
+          <li>«Kartaga o'tkazma» → karta raqamini joylang</li>
+          <li>Aynan <b>${fmt(tanlov)}</b> o'tkazing</li>
+          <li>Chekni skrinshot qilib, pastga yuklang</li>
+        </ol>
+        <form id="f">
+          <label>Qaysi kartadan to'ladingiz? (oxirgi 4 raqam)</label>
+          <input name="karta4" inputmode="numeric" maxlength="4" placeholder="1234" required>
+          <label>Chek rasmi</label>
+          <label class="file" id="fl"><input type="file" name="rasm" accept="image/*" required><span id="fn">📎 Chek skrinshotini tanlang</span></label>
+          <div id="e"></div>
+          <button class="btn" type="submit">Chekni yuborish</button>
+        </form>` : ''}
+    </div>` : `<div class="card"><p class="mut small">To'lovingiz tekshirilmoqda. Tasdiqlangach shu sahifada ko'rinadi.</p></div>`}
+
+    ${cheklar.length ? `<div class="card"><h2>To'lovlar tarixi</h2><ul class="hist">${cheklar.map(c => `
+      <li><div><b>${fmt(c.summa)}</b><div class="mut small">${new Date(c.vaqt).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}${c.izoh?' · '+esc(c.izoh):''}</div></div>
+      <span class="small">${CHEK[c.holat]||c.holat}${!CONFIG.API_URL && c.holat==='kutilmoqda' ? `<button class="mini" onclick="demo.tasdiq(${c.i},'tasdiq');yukla()">✓</button><button class="mini" onclick="demo.tasdiq(${c.i},'rad');yukla()">✕</button>`:''}</span></li>`).join('')}</ul></div>` : ''}
+
+    <button class="btn ghost" onclick="yukla()">↻ Yangilash</button>
+    <button class="link" onclick="chiqish()">Chiqish</button>`;
+
+  const f = document.getElementById('f');
+  if (f) {
+    f.rasm.onchange = () => { const fl=f.rasm.files[0]; document.getElementById('fn').textContent = fl ? '✅ '+fl.name : '📎 Chek skrinshotini tanlang'; document.getElementById('fl').classList.toggle('has', !!fl); };
+    formIshla('f', async v => {
+      if (!/^\d{4}$/.test(v.karta4)) throw 'Kartaning oxirgi 4 raqamini yozing';
+      const rasm = await siqish(f.rasm.files[0]);
+      const r = await api('upload', { ...sessiya, summa: tanlov, karta4: v.karta4, rasm, mime: 'image/jpeg' });
+      if (!r.ok) throw r.xato;
+      malumot = r; tanlov = null; toast('Chek yuborildi ✅'); kabinet(); scrollTo({top:0,behavior:'smooth'});
+    });
+  }
+}
+
+function siqish(file){
+  return new Promise((res, rej) => {
+    if (!file) return rej('Chek rasmini tanlang');
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      res(c.toDataURL('image/jpeg', 0.82).split(',')[1]);
+    };
+    img.onerror = () => rej("Rasmni o'qib bo'lmadi. Boshqa rasm tanlang.");
+    img.src = url;
+  });
+}
+
+async function nusxa(t){
+  try { await navigator.clipboard.writeText(t); }
+  catch(e){ const a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); }
+  toast('Nusxa olindi');
+}
+function chiqish(){ store.del('zp_sessiya'); sessiya=null; malumot=null; bosh(); }
+
+if (!CONFIG.API_URL) document.body.insertAdjacentHTML('beforeend', '<div class="demo">DEMO rejim — backend ulanmagan</div>');
+sessiya ? yukla() : bosh();
+</script>
+</body>
+</html>
